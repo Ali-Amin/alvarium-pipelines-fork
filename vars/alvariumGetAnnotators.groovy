@@ -39,8 +39,9 @@ def call(
 
     overrides.put(LayerType.CiCd, new TagWriter() {
         @Override
+	@NonCPS
         String writeTag() {
-            return System.getenv("GIT_COMMIT");
+            return "TAG" 
         }
     })
 
@@ -95,6 +96,7 @@ def initCtx(properties) {
     return new ImmutablePropertyBag(properties)
 }
 
+@NonCPS
 def getAnnotatorConfig(sdkInfo, annotatorKind) {
     for (cfg in sdkInfo.getAnnotators()) {
         switch (annotatorKind) {
