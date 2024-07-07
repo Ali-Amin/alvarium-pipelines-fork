@@ -38,18 +38,6 @@ def call(
     List<Annotator> annotators = []
     Map<String, Object> properties = new HashMap<String, Object>()
 
-    Map<LayerType, TagWriter> overrides = new HashMap<>();
-
-    overrides.put(LayerType.CiCd, new TagWriter() {
-        @Override
-        @NonCPS
-        String writeTag() {
-            return getCommitSha();
-        }
-    })
-
-    properties.put("tagWriterOverrides", overrides)
-
     for (annotatorKind in annotatorKinds) {
         Annotator annotator
         AnnotatorConfig cfg = getAnnotatorConfig(sdkInfo, annotatorKind)
