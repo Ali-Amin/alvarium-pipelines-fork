@@ -1,7 +1,7 @@
 @GrabResolver(name='jitpack.io', root='https://jitpack.io/')
 @Grab("com.google.errorprone:error_prone_annotations:2.20.0") // fixes alvarium import error
 @Grab(group='org.slf4j', module='slf4j-api', version='2.0.12')
-@Grab(group='com.github.project-alvarium', module='alvarium-sdk-java', version='947ecc99d2')
+@Grab(group='com.github.project-alvarium', module='alvarium-sdk-java', version='947ecc99d')
 @Grab("org.apache.logging.log4j:log4j-core:2.21.0")
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,7 @@ import com.alvarium.SdkInfo;
 import com.alvarium.annotators.Annotator;
 import com.alvarium.utils.PropertyBag;
 
-def call(List<String> annotatorKinds, Map<String,String> optionalParameters=[:]) {
+def call(List<String> annotatorKinds, String artifactName, Map<String,String> optionalParameters=[:]) {
     String artifactPath = optionalParameters['artifactPath'] ? optionalParameters['artifactPath'] : null
     String checksumPath
     String sourceCodeChecksumPath = optionalParameters['sourceCodeChecksumPath'] ? optionalParameters['sourceCodeChecksumPath'] : "${JENKINS_HOME}/${JOB_NAME}/${BUILD_NUMBER}/checksum"
@@ -58,7 +58,7 @@ def call(List<String> annotatorKinds, Map<String,String> optionalParameters=[:])
     )
 
     DefaultSdk sdk = new DefaultSdk(annotators, sdkInfo, logger)
-    sdk.transit(ctx, pipelineId.getBytes())
+    sdk.transit(ctx, artifactName.getBytes())
     sdk.close()
 }
 
